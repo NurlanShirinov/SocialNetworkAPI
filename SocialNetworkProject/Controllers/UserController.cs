@@ -45,8 +45,8 @@ namespace SocialNetwork.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("CheckUser")]
-        public async Task<IActionResult> CheckUser([FromBody] LoginRequestModel model)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestModel model)
         {
             var result = await _userService.CheckUserAsync(model.Email, model.Password);
             return Ok(result);
@@ -59,10 +59,10 @@ namespace SocialNetwork.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] User user)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Post([FromBody] RegisterRequestModel model)
         {
-            var result = await _userService.Add(user);
+            var result = await _userService.Add(model);
             return Ok(result);
         }
 

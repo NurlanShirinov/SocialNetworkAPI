@@ -17,9 +17,9 @@ namespace SocialNetwork.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllComments()
+        public async Task<IActionResult> GetAllComments([FromQuery] string postId)
         {
-            var result = await _commentService.GetAllAsync();
+            var result = await _commentService.GetAllAsync(postId);
             return Ok(result);
         }
 

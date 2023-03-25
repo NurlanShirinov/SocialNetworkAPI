@@ -1,4 +1,6 @@
 ﻿using SocialNetwork.Core.Models;
+using SocialNetwork.Core.RequestModels;
+using SocialNetwork.Core.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace SocialNetwork.Repository.CQRS.Commands.Abstract
 {
     public interface IUserCommand
     {
-        Task<int> Add(User user);
+        Task<RegisterResponseModel> Add(RegisterRequestModel user);
         Task<bool> Delete(string id);
         Task Update(User user);
         Task UpdatePassword(string id, string password);

@@ -41,7 +41,7 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
 	   From Users 
 	   Where DeleteStatus = 0";
 
-        public async Task<bool> CheckUserAsync(string email, string password)
+        public async Task<LoginResponseModel> CheckUserAsync(string email, string password)
         {
             var param = new
             {
@@ -50,8 +50,18 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
             };
             try
             {
-                var result = await _unitOfWork.GetConnection().QueryFirstOrDefaultAsync<UserResponseModel>(_sqlCheckUser, param, _unitOfWork.GetTransaction());
-                return result != null;
+                var currentUser = await _unitOfWork.GetConnection().QueryFirstOrDefaultAsync<UserResponseModel>(_sqlCheckUser, param, _unitOfWork.GetTransaction());
+                if(currentUser is null)
+                {
+                    var result = new LoginResponseModel { UserId = Guid.Empty.ToString(), SuccesfulLogin = false };
+                    return result;
+                }
+                else
+                {
+                    var result = new LoginResponseModel { UserId = currentUser.Id.ToString(), SuccesfulLogin = true };
+                    return result;
+                }
+
             }
             catch (Exception ex)
             {

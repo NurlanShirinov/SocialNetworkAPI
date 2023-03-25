@@ -17,9 +17,9 @@ namespace SocialNetwork.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string userId)
         {
-            var result = await _postService.GetAllAsync();
+            var result = await _postService.GetAllAsync(userId);
             return Ok(result);
         }
 

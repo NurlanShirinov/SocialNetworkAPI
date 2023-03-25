@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using SocialNetwork.Core.Models;
+using SocialNetwork.Core.RequestModels;
+using SocialNetwork.Core.ResponseModels;
 using SocialNetwork.Repository.CQRS.Commands.Abstract;
 using SocialNetwork.Repository.Infrustruce;
 using System;
@@ -21,10 +23,11 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
         }
 
         private string _sqlAddUser = $@"INSERT INTO USERS ([Name],[Surname],[Email],[Password])
-                                    VALUES (@{nameof(User.Name)},
-                                            @{nameof(User.Surname)},
-                                            @{nameof(User.Email)},
-                                            @{nameof(User.Password)})";
+                                       OUTPUT INSERTED.Id
+                                     VALUES (@{nameof(RegisterRequestModel.Name)},
+                                            @{nameof(RegisterRequestModel.Surname)},
+                                            @{nameof(RegisterRequestModel.Email)},
+                                            @{nameof(RegisterRequestModel.Password)})";
 
 
 
@@ -49,12 +52,13 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
                                                 SET Password = @{nameof(User.Password)}
                                               WHERE Id=@{nameof(User.Id)}";
 
-        public async Task<int> Add(User user)
+        public async Task<RegisterResponseModel> Add(RegisterRequestModel user)
         {
             try
             {
-                var result = await _unitOfWork.GetConnection().QueryFirstOrDefaultAsync<int>(_sqlAddUser, user, _unitOfWork.GetTransaction());
-                return result;
+                var result = await _unitOfWork.GetConnection().QueryFirstOrDefaultAsync<Guid>(_sqlAddUser, user, _unitOfWork.GetTransaction());
+                var registerResponseModel = new RegisterResponseModel { UserId = result.ToString(), SuccesfulLogin = true };
+                return registerResponseModel;
             }
             catch (Exception ex)
             {

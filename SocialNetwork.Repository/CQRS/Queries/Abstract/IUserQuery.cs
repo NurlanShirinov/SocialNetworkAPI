@@ -15,7 +15,7 @@ namespace SocialNetwork.Repository.CQRS.Queries.Abstract
         Task<IEnumerable<UserResponseModel>> GetAllAsync();
         Task<IEnumerable<UserResponseModel>> GetUsersByNameAsync(string name);
         Task<UserResponseModel> GetUserByEmailAsync(string email);
-        Task<bool> CheckUserAsync(string email, string password);
+        Task<LoginResponseModel> CheckUserAsync(string email, string password);
         Task<ListResult<UserResponseModel>> GetPaginationAsync(int offset, int limit);
     }
 }

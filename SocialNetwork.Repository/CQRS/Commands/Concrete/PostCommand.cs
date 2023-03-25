@@ -57,7 +57,6 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
 
                 throw ex;
             }
-
         }
 
         public async Task Update(Post post)

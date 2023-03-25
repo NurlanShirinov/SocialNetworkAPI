@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.Core.Helpers;
 using SocialNetwork.Core.Models;
+using SocialNetwork.Core.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SocialNetwork.Repository.CQRS.Queries.Abstract
 {
     public interface IPostQuery
     {
-        Task<IEnumerable<Post>> GetAllAsync();
+        Task<IEnumerable<PostResponseModels>> GetAllAsync(string userId);
         Task<Post> GetById(string id);
         Task<ListResult<Post>> GetPaginationAsync(int offset, int limit);
 

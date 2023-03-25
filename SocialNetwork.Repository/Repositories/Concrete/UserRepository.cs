@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.Core.Helpers;
 using SocialNetwork.Core.Models;
+using SocialNetwork.Core.RequestModels;
 using SocialNetwork.Core.ResponseModels;
 using SocialNetwork.Repository.CQRS.Commands.Abstract;
 using SocialNetwork.Repository.CQRS.Queries.Abstract;
@@ -24,7 +25,7 @@ namespace SocialNetwork.Repository.Repositories.Concrete
             _userQuery = userQuery;
         }
 
-        public async Task<int> Add(User user)
+        public async Task<RegisterResponseModel> Add(RegisterRequestModel user)
         {
             var result = await _userCommand.Add(user);
             return result;
@@ -36,7 +37,7 @@ namespace SocialNetwork.Repository.Repositories.Concrete
         }
 
 
-        public async Task<bool> CheckUserAsync(string email, string password)
+        public async Task<LoginResponseModel> CheckUserAsync(string email, string password)
         {
             var result = await _userQuery.CheckUserAsync(email, password);
             return result;

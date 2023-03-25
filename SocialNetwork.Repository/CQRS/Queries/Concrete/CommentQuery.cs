@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using SocialNetwork.Core.Helpers;
 using SocialNetwork.Core.Models;
+using SocialNetwork.Core.ResponseModels;
 using SocialNetwork.Repository.CQRS.Queries.Abstract;
 using SocialNetwork.Repository.Infrustruce;
 using System;
@@ -20,7 +21,10 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        private string _sqlGetAllComments = $@"SELECT * FROM COMMENTS WHERE DeleteStatus=0";
+        private string _sqlGetAllComments = $@"SELECT C.Content, C.CreatedDate from Comments AS C
+                                                LEFt Join Posts As P 
+                                                on C.PostId =@postId
+                                                WHERE C.DeleteStatus= 0";
 
         private string _sqlGetById = $@"SELECT * FROM COMMENTS WHERE Id=@id AND DeleteStatus = 0";
 
@@ -34,11 +38,11 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
                                              FROM Comments
                                              WHERE DeleteStatus=0";
 
-        public async Task<IEnumerable<Comment>> GetAllAsync()
+        public async Task<IEnumerable<CommentResponseModel>> GetAllAsync(string postId)
         {
             try
             {
-                var result = await _unitOfWork.GetConnection().QueryAsync<Comment>(_sqlGetAllComments, null, _unitOfWork.GetTransaction());
+                var result = await _unitOfWork.GetConnection().QueryAsync<CommentResponseModel>(_sqlGetAllComments, new { postId }, _unitOfWork.GetTransaction());
                 return result;
             }
             catch (Exception ex)

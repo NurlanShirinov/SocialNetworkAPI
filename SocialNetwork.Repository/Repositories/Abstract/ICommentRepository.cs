@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.Core.Helpers;
 using SocialNetwork.Core.Models;
+using SocialNetwork.Core.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace SocialNetwork.Repository.Repositories.Abstract
 {
     public interface ICommentRepository
     {
-        Task<IEnumerable<Comment>> GetAllAsync();
+        Task<IEnumerable<CommentResponseModel>> GetAllAsync(string postId);
         Task<Comment> GetById(string id);
         Task<ListResult<Comment>> GetPaginationAsync(int offset, int limit);
         Task<Guid> Add(Comment comment);

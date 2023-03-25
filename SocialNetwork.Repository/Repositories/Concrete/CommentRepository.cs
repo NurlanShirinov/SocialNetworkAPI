@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.Core.Helpers;
 using SocialNetwork.Core.Models;
+using SocialNetwork.Core.ResponseModels;
 using SocialNetwork.Repository.CQRS.Commands.Abstract;
 using SocialNetwork.Repository.CQRS.Queries.Abstract;
 using SocialNetwork.Repository.Repositories.Abstract;
@@ -35,9 +36,9 @@ namespace SocialNetwork.Repository.Repositories.Concrete
             return result;
         }
 
-        public async Task<IEnumerable<Comment>> GetAllAsync()
+        public async Task<IEnumerable<CommentResponseModel>> GetAllAsync(string postId)
         {
-            var result = await _commentQuery.GetAllAsync();
+            var result = await _commentQuery.GetAllAsync(postId);
             return result;
         }
 

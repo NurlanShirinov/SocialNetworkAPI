@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.Core.Helpers;
 using SocialNetwork.Core.Models;
+using SocialNetwork.Core.RequestModels;
 using SocialNetwork.Core.ResponseModels;
 using SocialNetwork.Repository.Repositories.Abstract;
 using SocialNetwork.Service.Services.Abstract;
@@ -20,7 +21,7 @@ namespace SocialNetwork.Service.Services.Concrete
             _userRepository = userRepository;
         }
 
-        public async Task<int> Add(User user)
+        public async Task<RegisterResponseModel> Add(RegisterRequestModel user)
         {
             var result = await  _userRepository.Add(user);
             return result;
@@ -31,7 +32,7 @@ namespace SocialNetwork.Service.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public async Task<bool> CheckUserAsync(string email, string password)
+        public async Task<LoginResponseModel> CheckUserAsync(string email, string password)
         {
             var result = await _userRepository.CheckUserAsync(email, password);
             return result;
