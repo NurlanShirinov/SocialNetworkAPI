@@ -9,7 +9,7 @@ namespace SocialNetwork.Core.ResponseModels
 {
     public class PostResponseModels  : Post
     {
-        public string CommentContent { get; set; }
-        public string FullName { get; set; }
+        public string? CommentContent { get; set; }
+        public string? FullName { get; set; }
     }
 }

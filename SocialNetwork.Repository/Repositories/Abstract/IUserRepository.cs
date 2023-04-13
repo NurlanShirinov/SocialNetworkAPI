@@ -18,7 +18,7 @@ namespace SocialNetwork.Repository.Repositories.Abstract
         Task<IEnumerable<UserResponseModel>> GetAllAsync();
         Task<IEnumerable<UserResponseModel>> GetUsersByNameAsync(string name);
         Task<UserResponseModel> GetUserByEmailAsync(string email);
-        Task<LoginResponseModel> CheckUserAsync(string email, string password);
+        Task<LoginResponseModel> CheckUserAsync(Email email, string password);
         Task<ListResult<UserResponseModel>> GetPaginationAsync(int offset, int limit);
         Task<RegisterResponseModel> Add(RegisterRequestModel user);
         Task<bool> Delete(string id);

@@ -37,7 +37,7 @@ namespace SocialNetwork.Repository.Repositories.Concrete
         }
 
 
-        public async Task<LoginResponseModel> CheckUserAsync(string email, string password)
+        public async Task<LoginResponseModel> CheckUserAsync(Email email, string password)
         {
             var result = await _userQuery.CheckUserAsync(email, password);
             return result;

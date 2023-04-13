@@ -42,15 +42,9 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
                                        WHERE Id= @{nameof(User.Id)}";
 
 
-
-
-        private string _sqlBlockUser = $@"UPDATE BLOCKED
-                                          SET ";
-
-
         private string _sqlUpdatePassword = $@"UPDATE USERS
                                                 SET Password = @{nameof(User.Password)}
-                                              WHERE Id=@{nameof(User.Id)}";
+                                                WHERE Id=@{nameof(User.Id)}";
 
         public async Task<RegisterResponseModel> Add(RegisterRequestModel user)
         {
@@ -64,9 +58,7 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
             {
                 throw ex;
             }
-           
         }
-
 
         public async Task<bool> Delete(string id)
         {

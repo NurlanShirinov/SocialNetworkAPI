@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Core.RequestModels
+namespace SocialNetwork.Core.ResponseModels
 {
-    public class LoginRequestModel
+    public class FriendResponseModel:Friend
     {
-        public string? Email { get; set; }
-        public string? Password { get; set; }
+        public string? Fullname { get; set; }
     }
 }

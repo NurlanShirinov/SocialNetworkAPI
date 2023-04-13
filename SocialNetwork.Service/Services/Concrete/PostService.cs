@@ -39,6 +39,12 @@ namespace SocialNetwork.Service.Services.Concrete
             return result;
         }
 
+        public async Task<IEnumerable<PostResponseModels>> GetAllOwn(string userId)
+        {
+            var result = await _postRepository.GetAllOwn(userId);
+            return result;
+        }
+
         public async Task<Post> GetById(string id)
         {
             var result = await _postRepository.GetById(id);

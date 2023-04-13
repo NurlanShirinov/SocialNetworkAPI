@@ -23,7 +23,7 @@ namespace SocialNetwork.Service.Services.Concrete
 
         public async Task<RegisterResponseModel> Add(RegisterRequestModel user)
         {
-            var result = await  _userRepository.Add(user);
+            var result = await _userRepository.Add(user);
             return result;
         }
 
@@ -34,8 +34,20 @@ namespace SocialNetwork.Service.Services.Concrete
 
         public async Task<LoginResponseModel> CheckUserAsync(string email, string password)
         {
-            var result = await _userRepository.CheckUserAsync(email, password);
-            return result;
+            try
+            {
+                var emailReq = new Email()
+                {
+                    EmailValue = email
+                };
+
+                var result = await _userRepository.CheckUserAsync(emailReq, password);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> Delete(string id)

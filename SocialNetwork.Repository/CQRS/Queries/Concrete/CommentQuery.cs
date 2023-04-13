@@ -21,10 +21,9 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        private string _sqlGetAllComments = $@"SELECT C.Content, C.CreatedDate from Comments AS C
-                                                LEFt Join Posts As P 
-                                                on C.PostId =@postId
-                                                WHERE C.DeleteStatus= 0";
+        private string _sqlGetAllComments = $@"Select * from Comments C
+                                                Where PostId  = @postId AND DeleteStatus = 0
+                                                ORDER BY CreatedDate DESC";
 
         private string _sqlGetById = $@"SELECT * FROM COMMENTS WHERE Id=@id AND DeleteStatus = 0";
 

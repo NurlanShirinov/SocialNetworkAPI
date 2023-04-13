@@ -30,6 +30,13 @@ namespace SocialNetwork.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetAllOwn")]
+        public async Task<IActionResult> GetAllOwn( [FromQuery]string userId)
+        {
+            var result = await _postService.GetAllOwn(userId);
+            return Ok(result);
+        }
+
         [HttpGet("GetPagination")]
         public async Task<IActionResult> GetAllPagination([FromQuery] int limit, [FromQuery] int offset)
         {

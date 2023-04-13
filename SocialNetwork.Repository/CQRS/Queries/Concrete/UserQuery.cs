@@ -30,8 +30,8 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
         private string _sqlGetByEmail = $@"SELECT * FROM USERS WHERE Email=@email AND DELETESTATUS=0";
         private string _sqlGetByName = $@"SELECT * FROM USERS WHERE Name=@name AND DELETESTATUS=0";
 
-      
-  private string _sqlGetAllPaging = $@"Select U.*
+
+        private string _sqlGetAllPaging = $@"Select U.*
        FROM USERS AS U
 	   Where U.DeleteStatus = 0
        ORDER BY U.[CreatedDate] DESC
@@ -41,17 +41,17 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
 	   From Users 
 	   Where DeleteStatus = 0";
 
-        public async Task<LoginResponseModel> CheckUserAsync(string email, string password)
+        public async Task<LoginResponseModel> CheckUserAsync(Email email, string password)
         {
             var param = new
             {
-                email,
+                email = email.EmailValue,
                 password
             };
             try
             {
                 var currentUser = await _unitOfWork.GetConnection().QueryFirstOrDefaultAsync<UserResponseModel>(_sqlCheckUser, param, _unitOfWork.GetTransaction());
-                if(currentUser is null)
+                if (currentUser is null)
                 {
                     var result = new LoginResponseModel { UserId = Guid.Empty.ToString(), SuccesfulLogin = false };
                     return result;
@@ -80,12 +80,10 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
             {
                 throw ex;
             }
-
         }
 
         public async Task<UserResponseModel> GetByIdAsync(Guid id)
         {
-
             var param = new { id };
             try
             {
@@ -94,7 +92,6 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
@@ -112,11 +109,9 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
                 };
 
                 return res;
-
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

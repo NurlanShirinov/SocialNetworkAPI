@@ -17,5 +17,7 @@ namespace SocialNetwork.Service.Services.Abstract
         Task<IEnumerable<PostResponseModels>> GetAllAsync(string userId);
         Task<Post> GetById(string id);
         Task<ListResult<Post>> GetPaginationAsync(int offset, int limit);
+        Task<IEnumerable<PostResponseModels>> GetAllOwn(string userId);
+
     }
 }

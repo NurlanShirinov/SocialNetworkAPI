@@ -21,13 +21,18 @@ namespace SocialNetwork.Repository.CQRS.Queries.Concrete
             _unitOfWork = unitOfWork;
         }
 
-        private string _sqlGetAll = $@"SELECT P.*,C.Content CommentContent, U.Name +' '+ U.Surname AS FullName FROM Posts P
+        private string _sqlGetAll = $@"SELECT P.*, U.Name +' '+ U.Surname AS FullName FROM Posts P
 LEFT JOIN Users U ON U.Id = P.UserId
-LEFT JOIN Comments C ON C.PostId = P.Id
-WHERE (P.UserId in (SELECT FriendId FROM Friends
-WHERE UserId = @userId) OR P.UserId=@userId)
-ORDER BY P.CreatedDate DESC
-";
+WHERE P.DeleteStatus = 0 AND (P.UserId in (SELECT FriendId FROM Friends 
+WHERE UserId = @userId) OR P.UserId=@userId) 
+ORDER BY P.CreatedDate DESC";
+
+        private string _sqlGetAllOwn = $@"SELECT P.*, CONCAT(U.Name, ' ', U.Surname) AS Fullname 
+FROM Posts AS P 
+JOIN Users AS U ON P.UserId = U.Id 
+WHERE P.UserId = @userId 
+AND P.DeleteStatus = 0
+Order by P.CreatedDate DESC";
 
         private string _sqlGetById = $@"SELECT * FROM POSTS WHERE Id=@id AND DeleteStatus = 0";
 
@@ -88,5 +93,18 @@ ORDER BY P.CreatedDate DESC
 
         }
 
+        public async Task<IEnumerable<PostResponseModels>> GetAllOwn(string userId)
+        {
+            try
+            {
+                var result = await _unitOfWork.GetConnection().QueryAsync<PostResponseModels>(_sqlGetAllOwn, new { userId }, _unitOfWork.GetTransaction());
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
