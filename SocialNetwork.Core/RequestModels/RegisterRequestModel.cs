@@ -11,7 +11,7 @@ namespace SocialNetwork.Core.RequestModels
     {
         public string? Name { get; set; }
         public string? Surname { get; set; }
-        public Email? Email { get; set; }
+        public string? Email { get; set; }
         public string? Password { get; set; }
     }
 }

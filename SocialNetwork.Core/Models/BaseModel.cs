@@ -9,7 +9,7 @@ namespace SocialNetwork.Core.Models
 {
     public class BaseModel
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = new Guid();
         public bool DeleteStatus { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public int RowNum { get; set; } 

@@ -28,19 +28,16 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
                                             @{nameof(RegisterRequestModel.Surname)},
                                             @{nameof(RegisterRequestModel.Email)},
                                             @{nameof(RegisterRequestModel.Password)})";
-
-
-
+        
         private string _sqlDeleteUser = $@"UPDATE USERS
                                            SET DeleteStatus = 1
                                            WHERE Id=@id";
-
+                                           
         private string _sqlUpdateUser = $@"UPDATE USERS
                                        SET Name = @{nameof(User.Name)},
                                         Surname = @{nameof(User.Surname)},
                                         Email = @{nameof(User.Email)}
                                        WHERE Id= @{nameof(User.Id)}";
-
 
         private string _sqlUpdatePassword = $@"UPDATE USERS
                                                 SET Password = @{nameof(User.Password)}
@@ -50,6 +47,7 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
         {
             try
             {
+                new Email { EmailValue = user.Email };
                 var result = await _unitOfWork.GetConnection().QueryFirstOrDefaultAsync<Guid>(_sqlAddUser, user, _unitOfWork.GetTransaction());
                 var registerResponseModel = new RegisterResponseModel { UserId = result.ToString(), SuccesfulLogin = true };
                 return registerResponseModel;
@@ -63,7 +61,6 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
         public async Task<bool> Delete(string id)
         {
             var param = new { id };
-
             try
             {
                 var result = await _unitOfWork.GetConnection().QueryAsync<bool>(_sqlDeleteUser, param, _unitOfWork.GetTransaction());
@@ -105,7 +102,6 @@ namespace SocialNetwork.Repository.CQRS.Commands.Concrete
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
